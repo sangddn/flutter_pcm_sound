@@ -85,6 +85,12 @@ class FlutterPcmSound {
     return await _invokeMethod('clear');
   }
 
+  /// check if native audio is currently playing
+  static Future<bool> isPlaying() async {
+    final bool result = await _invokeMethod('isPlaying');
+    return result;
+  }
+
   static Future<T?> _invokeMethod<T>(String method, [dynamic arguments]) async {
     if (_logLevel.index >= LogLevel.standard.index) {
       String args = '';

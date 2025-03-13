@@ -232,6 +232,24 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
             }
             result(@(YES));
         }
+        else if ([@"isPlaying" isEqualToString:call.method]) 
+        {
+            BOOL isPlaying = NO;
+            if (_mAudioUnit != nil) {
+                UInt32 isRunning = 0;
+                UInt32 size = sizeof(isRunning);
+                OSStatus status = AudioUnitGetProperty(_mAudioUnit,
+                                                  kAudioOutputUnitProperty_IsRunning,
+                                                  kAudioUnitScope_Global,
+                                                   0,
+                                                   &isRunning,
+                                                   &size);
+                if (status == noErr) {
+                    isPlaying = (isRunning == 1);
+                }
+            }
+            result(@(isPlaying));
+        }
         else
         {
             result([FlutterError errorWithCode:@"functionNotImplemented" message:call.method details:nil]);

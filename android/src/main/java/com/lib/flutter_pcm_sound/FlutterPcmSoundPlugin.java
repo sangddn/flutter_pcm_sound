@@ -1,30 +1,13 @@
 package com.lib.flutter_pcm_sound;
 
-import android.os.Build;
-import android.media.AudioFormat;
-import android.media.AudioManager;
-import android.media.AudioTrack;
-import android.media.AudioAttributes;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.SystemClock;
-
-import androidx.annotation.NonNull;
-
-import java.util.Map;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
-import java.io.StringWriter;
-import java.io.PrintWriter;
-import java.nio.ByteBuffer;
-
-import io.flutter.embedding.engine.plugins.FlutterPlugin;
-import io.flutter.plugin.common.BinaryMessenger;
-import io.flutter.plugin.common.MethodCall;
-import io.flutter.plugin.common.MethodChannel;
 
 /**
  * FlutterPcmSoundPlugin implements a "one pedal" PCM sound playback mechanism.
@@ -201,6 +184,16 @@ public class FlutterPcmSoundPlugin implements
                 case "clear": {
                     mSamples.clear();
                     result.success(true);
+                    break;
+                }
+                case "isPlaying": {
+                    boolean playing = false;
+                    if (mAudioTrack != null) {
+                        int state = mAudioTrack.getPlayState();
+                        // AudioTrack.PLAYSTATE_PLAYING == 3
+                        playing = (state == AudioTrack.PLAYSTATE_PLAYING);
+                    }
+                    result.success(playing);
                     break;
                 }
                 default:
