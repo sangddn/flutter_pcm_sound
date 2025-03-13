@@ -225,6 +225,13 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
             [self cleanup];
             result(@(true));
         }
+        else if ([@"clear" isEqualToString:call.method]) 
+        {
+            @synchronized (self.mSamples) {
+                [self.mSamples setLength:0];
+            }
+            result(@(YES));
+        }
         else
         {
             result([FlutterError errorWithCode:@"functionNotImplemented" message:call.method details:nil]);

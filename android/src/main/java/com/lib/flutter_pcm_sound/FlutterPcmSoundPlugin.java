@@ -198,6 +198,11 @@ public class FlutterPcmSoundPlugin implements
                     result.success(true);
                     break;
                 }
+                case "clear": {
+                    mSamples.clear();
+                    result.success(true);
+                    break;
+                }
                 default:
                     result.notImplemented();
                     break;
